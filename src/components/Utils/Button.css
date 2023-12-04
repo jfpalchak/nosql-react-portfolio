@@ -1,0 +1,16 @@
+.salmon {
+  background-color: salmon;
+  color: black;
+  cursor: pointer;
+}
+
+.green {
+  background-color: green;
+  color: white;
+  cursor: pointer;
+  border-radius: 100px;
+}
+
+.green:hover {
+  transform: scale(1.5);
+}

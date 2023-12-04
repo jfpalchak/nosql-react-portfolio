@@ -7,7 +7,7 @@ const ProjectList = () => {
       <h3>Project Entry</h3>
       <h3>Project Entry</h3>
       <h3>Project Entry</h3>
-      <p>Button: Add Project</p>
+      <button> Add Project</button>
     </React.Fragment>
   );
 };

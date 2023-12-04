@@ -7,7 +7,7 @@ const Profile = () => {
       <h3>Name</h3>
       <h3>Bio</h3>
       <h3>Skills</h3>
-      <p>Edit Button</p>
+      <button>Edit Profile</button>
     </React.Fragment>
   );
 };
