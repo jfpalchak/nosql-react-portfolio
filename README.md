@@ -1,4 +1,27 @@
-# Getting Started with Create React App
+# Portfolio Template
+
+#### An SPA with React & TypeScript, utilizing a NoSQL database with Firestore to implment a simple Portfolio management system.
+
+#### By Jon Cheng, Onur Kaymak, Joey Palchak
+
+## Technologies Used
+
+- TypeScript
+- React (v18.2.0)
+- Node (v16.13.1)
+- npm (v8.1.2)
+- Firebase (v9.23.0)
+- Firestore
+- CSS
+- HTML
+
+## Description
+
+## Setup & Installation
+
+## Known Bugs
+
+## License
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Profile from "./Profile";
-import ProjectList from "./ProjectList";
-import Card from "./Utils/Card";
-import ProfileEditForm from "./ProfileEditForm";
-import ProjectNewForm from "./ProjectNewForm";
-import ProjectEditForm from "./ProjectEditForm";
 import db from "./../firebase";
 import { collection, addDoc, onSnapshot, doc, updateDoc } from "firebase/firestore";
+import Profile from "./Profile";
+import ProfileEditForm from "./ProfileEditForm";
+import Card from "./Utils/Card";
+import ProjectList from "./ProjectList";
+import ProjectNewForm from "./ProjectNewForm";
+import ProjectEditForm from "./ProjectEditForm";
 import { Project as IProject } from "./Types";
 
 const PortfolioControl = () => {
@@ -15,6 +15,7 @@ const PortfolioControl = () => {
   const [projectEdit, setProjectEdit] = useState(false);
   const [projectListVisible, setProjectListVisible] = useState(false);
   const [projectList, setProjectList] = useState<IProject[]>([]);
+  const [profile, setProfile] = useState<IProfile>({ name: "", bio: "", skills: "" });
   // const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -49,7 +50,6 @@ const PortfolioControl = () => {
   const handleAddProjectButtonClick = () => {
     setProjectListVisible(!projectListVisible);
   };
-  // onAddProjectButtonClick = { handleAddProjectButtonClick };
 
   const handleAddingNewProjectToList = async (newProjectData: IProject) => {
     await addDoc(collection(db, "projects"), newProjectData);
@@ -62,13 +62,22 @@ const PortfolioControl = () => {
     setProjectEdit(false);
   };
 
-  // Conditional rendering
+  const handleEditingProfile = async (profile: IProfile) => {
+    const profileRef = doc(db, "profiles", "to3n3S0H3EVjiTci2Rgx");
+    await updateDoc(profileRef, { ...profile });
+    setProfile(profile);
+    setProfileEdit(false);
+  };
 
   return (
     // Rendering Components; passing in props (functions & state)
     <main style={mainStyle}>
       <Card>
-        {profileEdit ? <ProfileEditForm /> : <Profile onEditProfileButtonClick={handleEditProfileButtonClick} />}
+        {profileEdit ? (
+          <ProfileEditForm profile={profile} onClickingProfileUpdate={handleEditingProfile} />
+        ) : (
+          <Profile profile={profile} onEditProfileButtonClick={handleEditProfileButtonClick} />
+        )}
         <button onClick={handleEditProfileButtonClick}>{profileEdit ? "Back" : "Edit"}</button>
       </Card>
       <Card>
@@ -83,6 +92,12 @@ const mainStyle = {
   display: "flex",
   justifyContent: "space-around",
 };
+
+interface IProfile {
+  name: string;
+  bio: string;
+  skills: string;
+}
 
 // interface Project {
 //   id?: string;

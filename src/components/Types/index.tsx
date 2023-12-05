@@ -4,3 +4,10 @@ export interface Project {
   description: string;
   id?: string;
 }
+
+interface IProfile {
+  name: string;
+  bio: string;
+  skills: string;
+  id?: string;
+}
