@@ -1,4 +1,5 @@
 import React from "react";
+import ProjectNewForm from "./ProjectNewForm";
 
 const ProjectList = () => {
   return (
@@ -7,7 +8,6 @@ const ProjectList = () => {
       <h3>Project Entry</h3>
       <h3>Project Entry</h3>
       <h3>Project Entry</h3>
-      <button> Add Project</button>
     </React.Fragment>
   );
 };
