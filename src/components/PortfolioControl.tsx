@@ -6,15 +6,16 @@ import ProfileEditForm from "./ProfileEditForm";
 import ProjectNewForm from "./ProjectNewForm";
 import ProjectEditForm from "./ProjectEditForm";
 import db from "./../firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
 
 const PortfolioControl = () => {
   // State slices controlled by useState
   const [profileEdit, setProfileEdit] = useState(false);
+  const [projectEdit, setProjectEdit] = useState(false);
   const [projectListVisible, setProjectListVisible] = useState(false);
+  const [projectList, setProjectList] = useState([]);
 
   // Functions
-
   const handleEditProfileButtonClick = () => {
     setProfileEdit(!profileEdit);
   };
@@ -29,23 +30,17 @@ const PortfolioControl = () => {
     setProjectListVisible(true);
   };
 
-  // Conditional rendering
-  // let currentlyVisibleState = null;
-  // currentlyVisibleState = (
-  //   <>
-  //     <div className="container">
-  //       <Profile />
-  //       <ProjectList />
-  //     </div>
-  //   </>
-  // );
+  const handleEditingProject = async (project: Project) => {
+    const projectRef = doc(db, "projects", project.id!);
+    await updateDoc(projectRef, { ...project });
+    setProjectEdit(false);
+  };
 
-  // let currentlyShownCard = null;
+  // Conditional rendering
 
   return (
     // Rendering Components; passing in props (functions & state)
     <main style={mainStyle}>
-      {/* <h3>Placeholder</h3> */}
       <Card>
         {profileEdit ? <ProfileEditForm /> : <Profile onEditProfileButtonClick={handleEditProfileButtonClick} />}
         <button onClick={handleEditProfileButtonClick}>{profileEdit ? "Back" : "Edit"}</button>
@@ -64,6 +59,7 @@ const mainStyle = {
 };
 
 interface Project {
+  id?: string;
   title: string;
   link: string;
   description: string;
