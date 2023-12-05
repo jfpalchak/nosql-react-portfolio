@@ -5,7 +5,7 @@ export interface Project {
   id?: string;
 }
 
-interface IProfile {
+export interface IProfile {
   name: string;
   bio: string;
   skills: string;

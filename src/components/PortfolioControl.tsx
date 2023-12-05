@@ -18,6 +18,7 @@ const PortfolioControl = () => {
   const [profile, setProfile] = useState<IProfile>({ name: "", bio: "", skills: "" });
   // const [error, setError] = useState(null);
 
+  // grabbing projects
   useEffect(() => {
     const unSubscribe = onSnapshot(
       collection(db, "projects"),
@@ -37,6 +38,26 @@ const PortfolioControl = () => {
       },
       (error) => {
         console.log(error);
+      }
+    );
+    return () => unSubscribe();
+  }, []);
+
+  // grabbing Profile information
+  useEffect(() => {
+    const unSubscribe = onSnapshot(
+      collection(db, "profiles"),
+      (collectionSnapshot) => {
+        const doc = collectionSnapshot.docs[0]; // only the one profile
+        const userProfile = {
+          name: doc.data().name,
+          bio: doc.data().bio,
+          skills: doc.data().skills,
+        };
+        setProfile(userProfile);
+      },
+      (error) => {
+        console.log(error.message);
       }
     );
     return () => unSubscribe();
