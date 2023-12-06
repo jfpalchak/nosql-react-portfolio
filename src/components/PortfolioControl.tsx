@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import db from "./../firebase";
-import { collection, addDoc, onSnapshot, doc, updateDoc } from "firebase/firestore";
+import { collection, addDoc, deleteDoc, onSnapshot, doc, updateDoc } from "firebase/firestore";
 import Profile from "./Profile";
 import ProfileEditForm from "./ProfileEditForm";
 import Card from "./Utils/Card";
@@ -65,11 +65,19 @@ const PortfolioControl = () => {
     return () => unSubscribe();
   }, []);
 
-  // Functions
+  // Functions -- for Profile
   const handleEditProfileButtonClick = () => {
     setProfileEdit(!profileEdit);
   };
 
+  const handleEditingProfile = async (profile: IProfile) => {
+    const profileRef = doc(db, "profiles", "to3n3S0H3EVjiTci2Rgx");
+    await updateDoc(profileRef, { ...profile });
+    setProfile(profile);
+    setProfileEdit(false);
+  };
+
+  // Functions -- for Projects
   const handleAddProjectButtonClick = () => {
     setProjectListVisible(!projectListVisible);
   };
@@ -89,13 +97,6 @@ const PortfolioControl = () => {
     setProjectEdit(false);
   };
 
-  const handleEditingProfile = async (profile: IProfile) => {
-    const profileRef = doc(db, "profiles", "to3n3S0H3EVjiTci2Rgx");
-    await updateDoc(profileRef, { ...profile });
-    setProfile(profile);
-    setProfileEdit(false);
-  };
-
   // Write a function that will be sent to each Project card. Upon clicking it, shows the user Project Details, which also displays an Edit and Delete button.
   const handleChangingSelectedProject = (targetProjectId: string) => {
     const targetProject = projectList.filter((target) => target.id === targetProjectId)[0];
@@ -104,6 +105,11 @@ const PortfolioControl = () => {
   };
 
   const handleResetSelectedProject = () => {
+    setSelectedProject(null);
+  };
+
+  const handleDeletingProjectfromList = async (id: string) => {
+    await deleteDoc(doc(db, "projects", id));
     setSelectedProject(null);
   };
 
@@ -119,20 +125,23 @@ const PortfolioControl = () => {
           )}
           <button onClick={handleEditProfileButtonClick}>{profileEdit ? "Back" : "Edit"}</button>
         </Card>
-        {!selectedProject && (
-          <Card>
-            {projectListVisible ? (
-              <ProjectList listOfProjects={projectList} onClickingIndivProject={handleChangingSelectedProject} />
-            ) : (
-              <ProjectNewForm onFormSubmit={handleAddingNewProjectToList} />
-            )}
-            <button onClick={handleAddProjectButtonClick}>{projectListVisible ? "Add" : "Back"}</button>
-          </Card>
-        )}
+        <Card>
+          {projectListVisible ? (
+            <ProjectList listOfProjects={projectList} onClickingIndivProject={handleChangingSelectedProject} />
+          ) : (
+            <ProjectNewForm onFormSubmit={handleAddingNewProjectToList} />
+          )}
+          <button onClick={handleAddProjectButtonClick}>{projectListVisible ? "Add" : "Back"}</button>
+        </Card>
         <div style={projectDetailStyle}>
           {selectedProject != null ? (
             <Card>
-              <ProjectDetail project={selectedProject} onClickingBack={handleResetSelectedProject} onClickingEdit={handleEditProjectButtonClick} />
+              <ProjectDetail
+                project={selectedProject}
+                onClickingBack={handleResetSelectedProject}
+                onClickingEdit={handleEditProjectButtonClick}
+                onClickingDelete={handleDeletingProjectfromList}
+              />
             </Card>
           ) : null}
         </div>
@@ -141,6 +150,7 @@ const PortfolioControl = () => {
   );
 };
 
+// Styling & Typing
 const projectDetailStyle = {
   position: "fixed" as const,
   color: "black",

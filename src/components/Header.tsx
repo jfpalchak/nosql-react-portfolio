@@ -1,10 +1,17 @@
 import React from "react";
+import "./Header.css";
 
 const Header = () => {
   return (
-    <React.Fragment>
+    <header>
       <h1>Header</h1>
-    </React.Fragment>
+      <nav>
+        <ul>
+          <li>Portfolio</li>
+          <li>Sign In</li>
+        </ul>
+      </nav>
+    </header>
   );
 };
 
