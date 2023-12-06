@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import "./LoginPage.css";
 import { auth } from "./../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   // STATE
   const [signUpSuccess, setSignUpSuccess] = useState<string | null>(null);
   const [logInSuccess, setLogInSuccess] = useState<string | null>(null);
   const [logOutSuccess, setLogOutSuccess] = useState<string | null>(null);
+
+  const navigate = useNavigate();
 
   const doSignUp = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -41,6 +44,7 @@ const LoginPage = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setLogInSuccess(`Successfully logged in as: ${userCredential.user.email}.`);
+        navigate("/");
       })
       .catch((error) => {
         setLogInSuccess(`There was an error signing in: ${error.message}.`);
@@ -51,6 +55,7 @@ const LoginPage = () => {
     signOut(auth)
       .then(() => {
         setLogOutSuccess(`You have signed out.`);
+        navigate("/");
       })
       .catch((error) => {
         setLogOutSuccess(`There was an error signing out: ${error.message}`);
