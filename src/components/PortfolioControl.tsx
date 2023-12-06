@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import db from "./../firebase";
+import { db, auth } from "./../firebase";
 import { collection, addDoc, deleteDoc, onSnapshot, doc, updateDoc } from "firebase/firestore";
 import Profile from "./Profile";
 import ProfileEditForm from "./ProfileEditForm";
@@ -97,11 +97,9 @@ const PortfolioControl = () => {
     setProjectEdit(false);
   };
 
-  // Write a function that will be sent to each Project card. Upon clicking it, shows the user Project Details, which also displays an Edit and Delete button.
   const handleChangingSelectedProject = (targetProjectId: string) => {
     const targetProject = projectList.filter((target) => target.id === targetProjectId)[0];
     setSelectedProject(targetProject);
-    // setProjectListVisible(false);
   };
 
   const handleResetSelectedProject = () => {
@@ -173,17 +171,14 @@ const mainStyle = {
   justifyContent: "space-around",
 };
 
+// ############
+// #  TYPES
+// ############
+
 interface IProfile {
   name: string;
   bio: string;
   skills: string;
 }
-
-// interface Project {
-//   id?: string;
-//   title: string;
-//   link: string;
-//   description: string;
-// }
 
 export default PortfolioControl;

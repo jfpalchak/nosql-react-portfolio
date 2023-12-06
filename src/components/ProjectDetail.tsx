@@ -16,6 +16,10 @@ const ProjectDetail = (props: ProjectDetailProps) => {
   );
 };
 
+// ############
+// #  TYPES
+// ############
+
 type ProjectDetailProps = {
   project: IProject;
   onClickingBack: () => void;

@@ -14,6 +14,10 @@ const Project = (props: ProjectProps) => {
   );
 };
 
+// ############
+// #  TYPES
+// ############
+
 type ProjectProps = {
   title: string;
   link: string;

@@ -1,16 +1,5 @@
 import React from "react";
 
-type ProfileProps = {
-  onEditProfileButtonClick: () => void;
-  profile: IProfile;
-};
-
-interface IProfile {
-  name: string;
-  bio: string;
-  skills: string;
-}
-
 const Profile = (props: ProfileProps) => {
   const { profile } = props;
   return (
@@ -23,5 +12,20 @@ const Profile = (props: ProfileProps) => {
     </React.Fragment>
   );
 };
+
+// ############
+// #  TYPES
+// ############
+
+type ProfileProps = {
+  onEditProfileButtonClick: () => void;
+  profile: IProfile;
+};
+
+interface IProfile {
+  name: string;
+  bio: string;
+  skills: string;
+}
 
 export default Profile;

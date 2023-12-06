@@ -4,10 +4,6 @@ import { Project as IProject } from "./Types";
 import Project from "./Project";
 import Card from "./Utils/Card";
 
-// interface ProjectArr {
-//   listOfProjects: IProject[];
-// }
-
 const ProjectList = (props: ProjectListProps) => {
   const { listOfProjects, onClickingIndivProject, onClickingAddProject } = props;
   return (
