@@ -8,14 +8,21 @@ import Card from "./Utils/Card";
 //   listOfProjects: IProject[];
 // }
 
-const ProjectList = (props: { listOfProjects: IProject[] }) => {
-  const { listOfProjects } = props;
+const ProjectList = (props: ProjectListProps) => {
+  const { listOfProjects, onClickingIndivProject } = props;
   return (
     <React.Fragment>
       <h1>Project List</h1>
       {listOfProjects.map((entry) => (
-        <Card>
-          <Project key={entry.id} title={entry.title} link={entry.link} description={entry.description} id={entry.id} />
+        <Card key={entry.id}>
+          <Project
+            onClickingDiv={onClickingIndivProject}
+            key={entry.id}
+            title={entry.title}
+            link={entry.link}
+            description={entry.description}
+            id={entry.id}
+          />
         </Card>
       ))}
     </React.Fragment>
@@ -31,4 +38,5 @@ export default ProjectList;
 
 type ProjectListProps = {
   listOfProjects: IProject[];
+  onClickingIndivProject: (id: string) => void;
 };

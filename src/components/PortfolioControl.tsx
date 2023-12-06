@@ -7,6 +7,7 @@ import Card from "./Utils/Card";
 import ProjectList from "./ProjectList";
 import ProjectNewForm from "./ProjectNewForm";
 import ProjectEditForm from "./ProjectEditForm";
+import ProjectDetail from "./ProjectDetail";
 import { Project as IProject } from "./Types";
 
 const PortfolioControl = () => {
@@ -16,6 +17,7 @@ const PortfolioControl = () => {
   const [projectListVisible, setProjectListVisible] = useState(false);
   const [projectList, setProjectList] = useState<IProject[]>([]);
   const [profile, setProfile] = useState<IProfile>({ name: "", bio: "", skills: "" });
+  const [selectedProject, setSelectedProject] = useState<IProject | null>(null);
   // const [error, setError] = useState(null);
 
   // grabbing projects
@@ -72,6 +74,10 @@ const PortfolioControl = () => {
     setProjectListVisible(!projectListVisible);
   };
 
+  const handleEditProjectButtonClick = () => {
+    setProjectEdit(true);
+  };
+
   const handleAddingNewProjectToList = async (newProjectData: IProject) => {
     await addDoc(collection(db, "projects"), newProjectData);
     setProjectListVisible(true);
@@ -90,23 +96,54 @@ const PortfolioControl = () => {
     setProfileEdit(false);
   };
 
+  // Write a function that will be sent to each Project card. Upon clicking it, shows the user Project Details, which also displays an Edit and Delete button.
+  const handleChangingSelectedProject = (targetProjectId: string) => {
+    const targetProject = projectList.filter((target) => target.id === targetProjectId)[0];
+    setSelectedProject(targetProject);
+    // setProjectListVisible(false);
+  };
+
+  const handleResetSelectedProject = () => {
+    setSelectedProject(null);
+  };
+
   return (
     // Rendering Components; passing in props (functions & state)
-    <main style={mainStyle}>
-      <Card>
-        {profileEdit ? (
-          <ProfileEditForm profile={profile} onClickingProfileUpdate={handleEditingProfile} />
-        ) : (
-          <Profile profile={profile} onEditProfileButtonClick={handleEditProfileButtonClick} />
+    <React.Fragment>
+      <main style={mainStyle}>
+        <Card>
+          {profileEdit ? (
+            <ProfileEditForm profile={profile} onClickingProfileUpdate={handleEditingProfile} />
+          ) : (
+            <Profile profile={profile} onEditProfileButtonClick={handleEditProfileButtonClick} />
+          )}
+          <button onClick={handleEditProfileButtonClick}>{profileEdit ? "Back" : "Edit"}</button>
+        </Card>
+        {!selectedProject && (
+          <Card>
+            {projectListVisible ? (
+              <ProjectList listOfProjects={projectList} onClickingIndivProject={handleChangingSelectedProject} />
+            ) : (
+              <ProjectNewForm onFormSubmit={handleAddingNewProjectToList} />
+            )}
+            <button onClick={handleAddProjectButtonClick}>{projectListVisible ? "Add" : "Back"}</button>
+          </Card>
         )}
-        <button onClick={handleEditProfileButtonClick}>{profileEdit ? "Back" : "Edit"}</button>
-      </Card>
-      <Card>
-        {projectListVisible ? <ProjectList listOfProjects={projectList} /> : <ProjectNewForm onFormSubmit={handleAddingNewProjectToList} />}
-        <button onClick={handleAddProjectButtonClick}>{projectListVisible ? "Add" : "Back"}</button>
-      </Card>
-    </main>
+        <div style={projectDetailStyle}>
+          {selectedProject != null ? (
+            <Card>
+              <ProjectDetail project={selectedProject} onClickingBack={handleResetSelectedProject} onClickingEdit={handleEditProjectButtonClick} />
+            </Card>
+          ) : null}
+        </div>
+      </main>
+    </React.Fragment>
   );
+};
+
+const projectDetailStyle = {
+  position: "fixed" as const,
+  color: "black",
 };
 
 const mainStyle = {
