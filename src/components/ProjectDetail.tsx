@@ -1,7 +1,7 @@
 import { Project as IProject } from "./Types";
 
 const ProjectDetail = (props: ProjectDetailProps) => {
-  const { project, onClickingBack, onClickingEdit, onClickingDelete } = props;
+  const { project, onClickingBack, onClickingEdit, onClickingDelete, loggedIn } = props;
 
   return (
     <div>
@@ -9,8 +9,8 @@ const ProjectDetail = (props: ProjectDetailProps) => {
       <p>Title: {project.title}</p>
       <p>Link: {project.link}</p>
       <p>Description: {project.description}</p>
-      <button onClick={onClickingEdit}>Edit</button>
-      <button onClick={() => onClickingDelete(project.id!)}>Delete</button>
+      {loggedIn && <button onClick={onClickingEdit}>Edit</button>}
+      {loggedIn && <button onClick={() => onClickingDelete(project.id!)}>Delete</button>}
       <button onClick={onClickingBack}>Back</button>
     </div>
   );
@@ -21,6 +21,7 @@ const ProjectDetail = (props: ProjectDetailProps) => {
 // ############
 
 type ProjectDetailProps = {
+  loggedIn: boolean;
   project: IProject;
   onClickingBack: () => void;
   onClickingEdit: () => void;

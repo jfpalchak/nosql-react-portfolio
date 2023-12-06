@@ -5,11 +5,11 @@ import Project from "./Project";
 import Card from "./Utils/Card";
 
 const ProjectList = (props: ProjectListProps) => {
-  const { listOfProjects, onClickingIndivProject, onClickingAddProject } = props;
+  const { listOfProjects, onClickingIndivProject, onClickingAddProject, loggedIn } = props;
   return (
     <React.Fragment>
       <h1>Project List</h1>
-      <button onClick={onClickingAddProject}>Add Project</button>
+      {loggedIn && <button onClick={onClickingAddProject}>Add Project</button>}
       {listOfProjects.map((entry) => (
         <Card key={entry.id}>
           <Project
@@ -34,6 +34,7 @@ export default ProjectList;
 // props = { listOfProjects: [IProject, IProject, IProject] }
 
 type ProjectListProps = {
+  loggedIn: boolean;
   listOfProjects: IProject[];
   onClickingIndivProject: (id: string) => void;
   onClickingAddProject: () => void;

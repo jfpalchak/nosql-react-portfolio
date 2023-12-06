@@ -19,6 +19,7 @@ const PortfolioControl = () => {
   const [profile, setProfile] = useState<IProfile>({ name: "", bio: "", skills: "" });
   const [selectedProject, setSelectedProject] = useState<IProject | null>(null);
   // const [error, setError] = useState(null);
+  const isAuthorized = auth.currentUser ? true : false;
 
   // grabbing projects
   useEffect(() => {
@@ -119,13 +120,14 @@ const PortfolioControl = () => {
           {profileEdit ? (
             <ProfileEditForm profile={profile} onClickingProfileUpdate={handleEditingProfile} onClickingBack={handleEditProfileButtonClick} />
           ) : (
-            <Profile profile={profile} onEditProfileButtonClick={handleEditProfileButtonClick} />
+            <Profile loggedIn={isAuthorized} profile={profile} onEditProfileButtonClick={handleEditProfileButtonClick} />
           )}
           {/* <button onClickingBack={handleEditProfileButtonClick}>{profileEdit ? "Back" : "Edit"}</button> */}
         </Card>
         <Card>
           {projectListVisible ? (
             <ProjectList
+              loggedIn={isAuthorized}
               listOfProjects={projectList}
               onClickingIndivProject={handleChangingSelectedProject}
               onClickingAddProject={handleAddProjectButtonClick}
@@ -140,6 +142,7 @@ const PortfolioControl = () => {
             <Card>
               {!projectEdit ? (
                 <ProjectDetail
+                  loggedIn={isAuthorized}
                   project={selectedProject}
                   onClickingBack={handleResetSelectedProject}
                   onClickingEdit={handleEditProjectButtonClick}

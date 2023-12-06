@@ -62,7 +62,7 @@ const LoginPage = () => {
 
   return (
     <section className="login-content">
-      {isAuthorized && (
+      {!isAuthorized ? (
         <>
           <div className="signup">
             <h1>Sign Up</h1>
@@ -73,7 +73,6 @@ const LoginPage = () => {
               <button type="submit">Sign Up</button>
             </form>
           </div>
-
           <div className="login">
             <h1>Log In</h1>
             {logInSuccess}
@@ -84,13 +83,14 @@ const LoginPage = () => {
             </form>
           </div>
         </>
+      ) : (
+        <div className="logout">
+          <h1>Log Out</h1>
+          {logOutSuccess}
+          <br />
+          <button onClick={doLogOut}>Log Out</button>
+        </div>
       )}
-      <div className="logout">
-        <h1>Log Out</h1>
-        {logOutSuccess}
-        <br />
-        <button onClick={doLogOut}>Log Out</button>
-      </div>
     </section>
   );
 };
