@@ -25,7 +25,7 @@ const ProjectNewForm = (props: ProjectNewFormProps) => {
   return (
     <React.Fragment>
       <h1>New Project Form</h1>
-      <ReusableForm formSubmissionHandler={handleNewProjectFormSubmission} buttonText="Add Project" />
+      <ReusableForm formSubmissionHandler={handleNewProjectFormSubmission} backClickHandler={props.onClickingBack} buttonText="Add Project" />
     </React.Fragment>
   );
 };
@@ -37,6 +37,7 @@ const ProjectNewForm = (props: ProjectNewFormProps) => {
 // Define the type for the props
 interface ProjectNewFormProps {
   onFormSubmit: (data: Project) => Promise<void>;
+  onClickingBack: () => void;
 }
 
 // Step 1: Extend

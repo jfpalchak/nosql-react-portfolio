@@ -2,14 +2,14 @@ import React from "react";
 import ReusableForm from "./ReusableForm";
 
 const ProjectEditForm = (props: ProjectEditFormProps) => {
-  const { project } = props;
+  const { project, onClickingUpdateProject, onClickingBack } = props;
 
   const handleEditProjectFormSubmission = (e: React.FormEvent<CustomForm>) => {
     e.preventDefault();
 
     const target = e.currentTarget.elements;
 
-    props.onEditProjectSubmit({
+    onClickingUpdateProject({
       title: target.title.value,
       link: target.link.value,
       description: target.link.value,
@@ -20,7 +20,10 @@ const ProjectEditForm = (props: ProjectEditFormProps) => {
   return (
     <React.Fragment>
       <h1>Project Edit Form</h1>
-      <ReusableForm formSubmissionHandler={handleEditProjectFormSubmission} buttonText="Update" />
+      <ReusableForm formSubmissionHandler={handleEditProjectFormSubmission} backClickHandler={onClickingBack} buttonText="Update" />
+      {/* <button type="button" onClick={onClickingBack}>
+        Back
+      </button> */}
     </React.Fragment>
   );
 };
@@ -30,15 +33,16 @@ const ProjectEditForm = (props: ProjectEditFormProps) => {
 // ############
 
 type ProjectEditFormProps = {
-  onEditProjectSubmit: (data: Project) => void;
-  project: Project;
+  onClickingUpdateProject: (data: IProject) => Promise<void>;
+  onClickingBack: () => void;
+  project: IProject;
 };
 
-interface Project {
+interface IProject {
   title: string;
   link: string;
   description: string;
-  id: string;
+  id?: string;
 }
 
 interface CustomElements extends HTMLFormControlsCollection {

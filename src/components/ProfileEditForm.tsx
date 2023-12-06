@@ -1,20 +1,7 @@
 import React from "react";
 
-type FormEvent = React.FormEvent<HTMLFormElement>;
-
-type ProfileEditFormTypes = {
-  onClickingProfileUpdate: (data: IProfile) => void;
-  profile: IProfile;
-};
-
-interface IProfile {
-  name: string;
-  bio: string;
-  skills: string;
-}
-
 const ProfileEditForm = (props: ProfileEditFormTypes) => {
-  const { profile } = props;
+  const { profile, onClickingBack } = props;
 
   const editProfile = (e: React.FormEvent<CustomForm>) => {
     e.preventDefault();
@@ -38,6 +25,7 @@ const ProfileEditForm = (props: ProfileEditFormTypes) => {
         <br />
         <input type="text" name="skills" placeholder={profile.skills ? profile.skills : "Profile Skills"} />
         <br />
+        <button onClick={onClickingBack}>Back</button>
         <button type="submit">Update Profile</button>
       </form>
     </React.Fragment>
@@ -47,6 +35,20 @@ const ProfileEditForm = (props: ProfileEditFormTypes) => {
 // ############
 // #  TYPES
 // ############
+
+type FormEvent = React.FormEvent<HTMLFormElement>;
+
+type ProfileEditFormTypes = {
+  onClickingProfileUpdate: (data: IProfile) => void;
+  onClickingBack: () => void;
+  profile: IProfile;
+};
+
+interface IProfile {
+  name: string;
+  bio: string;
+  skills: string;
+}
 
 interface CustomElements extends HTMLFormControlsCollection {
   name: HTMLInputElement;

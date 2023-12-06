@@ -14,7 +14,7 @@ const PortfolioControl = () => {
   // State slices controlled by useState
   const [profileEdit, setProfileEdit] = useState(false);
   const [projectEdit, setProjectEdit] = useState(false);
-  const [projectListVisible, setProjectListVisible] = useState(false);
+  const [projectListVisible, setProjectListVisible] = useState(true);
   const [projectList, setProjectList] = useState<IProject[]>([]);
   const [profile, setProfile] = useState<IProfile>({ name: "", bio: "", skills: "" });
   const [selectedProject, setSelectedProject] = useState<IProject | null>(null);
@@ -83,7 +83,7 @@ const PortfolioControl = () => {
   };
 
   const handleEditProjectButtonClick = () => {
-    setProjectEdit(true);
+    setProjectEdit(!projectEdit);
   };
 
   const handleAddingNewProjectToList = async (newProjectData: IProject) => {
@@ -119,29 +119,41 @@ const PortfolioControl = () => {
       <main style={mainStyle}>
         <Card>
           {profileEdit ? (
-            <ProfileEditForm profile={profile} onClickingProfileUpdate={handleEditingProfile} />
+            <ProfileEditForm profile={profile} onClickingProfileUpdate={handleEditingProfile} onClickingBack={handleEditProfileButtonClick} />
           ) : (
             <Profile profile={profile} onEditProfileButtonClick={handleEditProfileButtonClick} />
           )}
-          <button onClick={handleEditProfileButtonClick}>{profileEdit ? "Back" : "Edit"}</button>
+          {/* <button onClickingBack={handleEditProfileButtonClick}>{profileEdit ? "Back" : "Edit"}</button> */}
         </Card>
         <Card>
           {projectListVisible ? (
-            <ProjectList listOfProjects={projectList} onClickingIndivProject={handleChangingSelectedProject} />
+            <ProjectList
+              listOfProjects={projectList}
+              onClickingIndivProject={handleChangingSelectedProject}
+              onClickingAddProject={handleAddProjectButtonClick}
+            />
           ) : (
-            <ProjectNewForm onFormSubmit={handleAddingNewProjectToList} />
+            <ProjectNewForm onFormSubmit={handleAddingNewProjectToList} onClickingBack={handleAddProjectButtonClick} />
           )}
-          <button onClick={handleAddProjectButtonClick}>{projectListVisible ? "Add" : "Back"}</button>
+          {/* <button onClick={handleAddProjectButtonClick}>{projectListVisible ? "Add" : "Back"}</button> */}
         </Card>
         <div style={projectDetailStyle}>
-          {selectedProject != null ? (
+          {selectedProject ? (
             <Card>
-              <ProjectDetail
-                project={selectedProject}
-                onClickingBack={handleResetSelectedProject}
-                onClickingEdit={handleEditProjectButtonClick}
-                onClickingDelete={handleDeletingProjectfromList}
-              />
+              {!projectEdit ? (
+                <ProjectDetail
+                  project={selectedProject}
+                  onClickingBack={handleResetSelectedProject}
+                  onClickingEdit={handleEditProjectButtonClick}
+                  onClickingDelete={handleDeletingProjectfromList}
+                />
+              ) : (
+                <ProjectEditForm
+                  onClickingBack={handleEditProjectButtonClick}
+                  onClickingUpdateProject={handleEditingProject}
+                  project={selectedProject}
+                />
+              )}
             </Card>
           ) : null}
         </div>

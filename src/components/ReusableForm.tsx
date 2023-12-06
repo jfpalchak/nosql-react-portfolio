@@ -3,6 +3,7 @@ import React from "react";
 // Define the type for the props
 interface ReusableFormProps {
   formSubmissionHandler: (event: React.FormEvent<CustomForm>) => void;
+  backClickHandler: () => void;
   buttonText: string;
 }
 
@@ -16,6 +17,9 @@ const ReusableForm = (props: ReusableFormProps) => {
         <input type="text" name="description" placeholder="Profile Description" />
         <button type="submit">{props.buttonText}</button>
       </form>
+      <button type="button" onClick={props.backClickHandler}>
+        Back
+      </button>
     </React.Fragment>
   );
 };

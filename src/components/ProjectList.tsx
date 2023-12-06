@@ -9,10 +9,11 @@ import Card from "./Utils/Card";
 // }
 
 const ProjectList = (props: ProjectListProps) => {
-  const { listOfProjects, onClickingIndivProject } = props;
+  const { listOfProjects, onClickingIndivProject, onClickingAddProject } = props;
   return (
     <React.Fragment>
       <h1>Project List</h1>
+      <button onClick={onClickingAddProject}>Add Project</button>
       {listOfProjects.map((entry) => (
         <Card key={entry.id}>
           <Project
@@ -39,4 +40,5 @@ export default ProjectList;
 type ProjectListProps = {
   listOfProjects: IProject[];
   onClickingIndivProject: (id: string) => void;
+  onClickingAddProject: () => void;
 };
