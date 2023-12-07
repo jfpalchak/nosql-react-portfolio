@@ -40,7 +40,7 @@ interface ProjectNewFormProps {
   onClickingBack: () => void;
 }
 
-// Step 1: Extend
+// // Step 1: Extend
 interface CustomElements extends HTMLFormControlsCollection {
   title: HTMLInputElement;
   link: HTMLInputElement;

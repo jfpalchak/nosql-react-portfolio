@@ -7,7 +7,7 @@ const ProjectDetail = (props: ProjectDetailProps) => {
     <div>
       <h1>Project</h1>
       <p>Title: {project.title}</p>
-      <p>Link: {project.link}</p>
+      <p>Link:{project.link}</p>
       <p>Description: {project.description}</p>
       {loggedIn && <button onClick={onClickingEdit}>Edit</button>}
       {loggedIn && <button onClick={() => onClickingDelete(project.id!)}>Delete</button>}

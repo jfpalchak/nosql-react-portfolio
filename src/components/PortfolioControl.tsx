@@ -4,11 +4,15 @@ import { collection, addDoc, deleteDoc, onSnapshot, doc, updateDoc } from "fireb
 import Profile from "./Profile";
 import ProfileEditForm from "./ProfileEditForm";
 import Card from "./Utils/Card";
-import ProjectList from "./ProjectList";
+// import ProjectList from "./ProjectList";
 import ProjectNewForm from "./ProjectNewForm";
 import ProjectEditForm from "./ProjectEditForm";
 import ProjectDetail from "./ProjectDetail";
 import { Project as IProject } from "./Types";
+import { Suspense } from "react";
+import LoadingSpinner from "./Utils/LoadingSpinner.js";
+
+const ProjectList = React.lazy(() => import("./ProjectList"));
 
 const PortfolioControl = () => {
   // State slices controlled by useState
@@ -124,20 +128,23 @@ const PortfolioControl = () => {
           )}
           {/* <button onClickingBack={handleEditProfileButtonClick}>{profileEdit ? "Back" : "Edit"}</button> */}
         </Card>
+
         <Card>
           {projectListVisible ? (
-            <ProjectList
-              loggedIn={isAuthorized}
-              listOfProjects={projectList}
-              onClickingIndivProject={handleChangingSelectedProject}
-              onClickingAddProject={handleAddProjectButtonClick}
-            />
+            <Suspense fallback={<LoadingSpinner />}>
+              <ProjectList
+                loggedIn={isAuthorized}
+                listOfProjects={projectList}
+                onClickingIndivProject={handleChangingSelectedProject}
+                onClickingAddProject={handleAddProjectButtonClick}
+              />
+            </Suspense>
           ) : (
             <ProjectNewForm onFormSubmit={handleAddingNewProjectToList} onClickingBack={handleAddProjectButtonClick} />
           )}
           {/* <button onClick={handleAddProjectButtonClick}>{projectListVisible ? "Add" : "Back"}</button> */}
         </Card>
-        <div style={projectDetailStyle}>
+        <div className="project-detail" style={projectDetailStyle}>
           {selectedProject ? (
             <Card>
               {!projectEdit ? (
@@ -166,7 +173,10 @@ const PortfolioControl = () => {
 // Styling & Typing
 const projectDetailStyle = {
   position: "fixed" as const,
+  top: 100,
   color: "black",
+  boxShadow: "rgba(0, 0, 0, 0.56) 0px 22px 70px 4px",
+  borderRadius: 10,
 };
 
 const mainStyle = {
